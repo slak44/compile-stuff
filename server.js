@@ -19,22 +19,33 @@ server.listen(8192, function () {
 
 function processGET(request, response) {
   let url = require('url').parse(request.url);
-  if (url.pathname === '/') {
-    fs.readFile('index/main.html', {encoding: 'utf-8'}, function (err, data) {
-      if (err) sendError(response, 503, 'Internal server error: could not find index/main.html');
-      else {
-        response.writeHead(200, {
-          'Access-Control-Allow-Origin': '109.103.29.52',
-          'Content-Type': 'text/html',
-          'Server': 'Slak\'s Server'
-        });
-        response.write(data);
-        response.end();
-      }
-    });
-  } else {
-    sendError(response, 404, 'Not found.');
+  switch (url.pathname) {
+    case '/':
+      sendFile(response, 'index/main.html', 'document');
+      break;
+    case '/main.css':
+      sendFile(response, 'index/main.css', 'text/css');
+      break;
+    default: sendError(response, 404, 'Not found.');
   }
+}
+
+function sendFile(response, filePath, mimeType) {
+  if (!filePath) throw new Error('Path not specified.');
+  if (!mimeType) mimeType = 'text/plain';
+  fs.readFile(filePath, {encoding: 'utf-8'}, function (err, data) {
+    if (err) sendError(response, 503, `Internal server error: could not find ${filePath}`);
+    else {
+      response.writeHead(200, {
+        'Cache-Control': 'max-age=3600',
+        'Access-Control-Allow-Origin': '109.103.29.52',
+        'Content-Type': mimeType,
+        'Server': 'Slak\'s Server'
+      });
+      response.write(data);
+      response.end();
+    }
+  });
 }
 
 function sendError(response, code, msg) {
