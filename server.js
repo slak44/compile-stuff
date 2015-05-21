@@ -26,6 +26,9 @@ function processGET(request, response) {
     case '/main.css':
       sendFile(response, 'index/main.css', 'text/css');
       break;
+    case '/script.js':
+      sendFile(response, 'index/script.js', 'text/javascript');
+      break;
     default: sendError(response, 404, 'Not found.');
   }
 }
