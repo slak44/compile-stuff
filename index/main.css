@@ -1,6 +1,5 @@
 body {
   margin: 0px;
-  background-color: #DDDDDD;
 }
 
 a {
@@ -8,6 +7,7 @@ a {
   text-decoration: none;
   color: #000000;
 }
+
 a:hover {
   color: #F89402;
 }
@@ -15,6 +15,7 @@ a:hover {
 nav {
   background-color: #A96502;
   display: block;
+  -webkit-user-select: none;
 }
 
 nav > a {
@@ -26,6 +27,7 @@ nav > a {
 
 pre {
   margin: 0px;
+  display: none;
 }
 
 code {
@@ -36,11 +38,7 @@ code {
   padding: 0px !important;
 }
 
-.hidden {
-  display: none;
-}
-
-.visible {
+.displayable {
   display: block;
 }
 

@@ -8,13 +8,13 @@
   <body>
     <nav>
       <a href="javascript: void(0);" id="execute">Execute</a>
-      <a href="javascript: void(0);">Javascript</a>
-      <a href="javascript: void(0);">Java</a>
-      <a href="javascript: void(0);">C++</a>
+      <a href="javascript: showLang('lang-js');">Javascript</a>
+      <a href="javascript: showLang('lang-java');">Java</a>
+      <a href="javascript: showLang('lang-c++');">C++</a>
     </nav>
-    <pre class="lang-js visible"><code class="code-block" contenteditable="true">var a = 123;</code></pre>
-    <pre class="lang-java hidden"><code class="code-block" contenteditable="true"></code></pre>
-    <pre class="lang-c++ hidden"><code class="code-block" contenteditable="true"></code></pre>
+    <pre class="lang-js displayable"><code class="code-block" contenteditable="true">var a = 123;</code></pre>
+    <pre class="lang-java"><code class="code-block" contenteditable="true">int i = 12;</code></pre>
+    <pre class="lang-c++"><code class="code-block" contenteditable="true">int* a;</code></pre>
     <script src="/script.js" type="text/javascript"></script>
   </body>
 </html>
