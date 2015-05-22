@@ -12,9 +12,26 @@
       <a href="javascript: showLang('lang-java');">Java</a>
       <a href="javascript: showLang('lang-c++');">C++</a>
     </nav>
-    <pre class="lang-js displayable"><code class="code-block" contenteditable="true">var a = 123;</code></pre>
-    <pre class="lang-java"><code class="code-block" contenteditable="true">int i = 12;</code></pre>
-    <pre class="lang-c++"><code class="code-block" contenteditable="true">int* a;</code></pre>
+    <pre class="lang-js displayable"><code class="code-block" contenteditable="true">
+      alert('Hello World!');
+    </code></pre>
+    <pre class="lang-java"><code class="code-block" contenteditable="true">
+      package main;
+      
+      public class Main {
+        public static void main(String[] args) {
+          System.out.println("Hello World!");
+        }
+      }
+    </code></pre>
+    <pre class="lang-c++"><code class="code-block" contenteditable="true">
+    #include &lt;iostream&gt;
+    
+    int main() {
+      std::cout << "Hello World!" << std::endl;
+      return 0;
+    }
+    </code></pre>
     <script src="/script.js" type="text/javascript"></script>
   </body>
 </html>
