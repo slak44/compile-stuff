@@ -1,14 +1,25 @@
 'use strict';
-const http = require('http');
 const fs = require('fs');
-const server = http.createServer(listener);
+let server;
+if (process.argv[2] === 'use-https') {
+  const https = require('https');
+  let options = {
+    key: fs.readFileSync('key.pem'),
+    cert: fs.readFileSync('cert.pem')
+  };
+  server = https.createServer(options, listener);
+} else {
+  const http = require('http');
+  server = http.createServer(listener);
+}
+
 function listener(request, response) {
   switch (request.method) {
     case 'GET':
       processGET(request, response);
       break;
     case 'POST':
-      sendError(response, 405, 'POST not allowed.');
+      sendError(response, 501, 'POST not allowed yet.');
       break;
     default: sendError(response, 400, `Bad request: method not supported (${request.method}).`);
   }
@@ -37,7 +48,7 @@ function sendFile(response, filePath, mimeType) {
   if (!filePath) throw new Error('Path not specified.');
   if (!mimeType) mimeType = 'text/plain';
   fs.readFile(filePath, {encoding: 'utf-8'}, function (err, data) {
-    if (err) sendError(response, 503, `Internal server error: could not find ${filePath}`);
+    if (err) sendError(response, 500, `Internal server error: could not find ${filePath}`);
     else {
       response.writeHead(200, {
         'Cache-Control': 'max-age=3600',
