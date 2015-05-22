@@ -34,11 +34,13 @@ function processGET(request, response) {
     case '/':
       sendFile(response, 'index/main.html', 'document');
       break;
+    case '/highlight/obsidian.css':
     case '/main.css':
-      sendFile(response, 'index/main.css', 'text/css');
+      sendFile(response, `index${url.pathname}`, 'text/css');
       break;
+    case '/highlight/highlight.pack.js':
     case '/script.js':
-      sendFile(response, 'index/script.js', 'text/javascript');
+      sendFile(response, `index${url.pathname}`, 'text/javascript');
       break;
     default: sendError(response, 404, 'Not found.');
   }
