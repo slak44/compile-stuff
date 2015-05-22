@@ -1,3 +1,36 @@
+body {
+  margin: 0px;
+}
+
 a {
-  font-size: 50px;
+  font-family: 'Segoe UI';
+  text-decoration: none;
+  color: #000000;
+}
+a:hover {
+  color: #F89402;
+}
+
+nav {
+  background-color: #A96502;
+}
+
+h1 {
+  font-family: 'Segoe UI';
+  font-size: 35px;
+}
+
+nav > a {
+  border-radius: 5px;
+  background-color: #C98522;
+  margin-right: 25px;
+  padding: 10px;
+}
+
+#page-heading {
+  margin: 10px 25px 10px 10px;
+  display: inline-block;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #C98522;
 }
