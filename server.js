@@ -1,5 +1,7 @@
 'use strict';
+Array.prototype.last = function () {return this[this.length - 1]};
 const fs = require('fs');
+const cp = require('child_process');
 const entities = new (require('html-entities').AllHtmlEntities)();
 let server;
 if (process.argv[2] === 'use-https') {
@@ -36,12 +38,20 @@ function processPOST(request, response, url) {
   request.on('data', function (e) {body += e});
   request.on('end', function () {
     body = entities.decode(body);
-    switch (url.pathname) {
-      case '/lang-js':
-        sendError(response, 200, 'JS');
-        break;
-      default:
-        
+    try {
+      execute(url.pathname.slice(1), body, function (error, stdout, stderr) {
+        if (error) throw new Error(`Code encountered an error: ${error.message}`);
+        response.writeHead(200, {
+          'Cache-Control': 'max-age=0',
+          'Access-Control-Allow-Origin': '109.103.29.52',
+          'Content-Type': 'text/plain',
+          'Server': 'Slak\'s Server'
+        });
+        response.write(stdout);
+        response.end();
+      });
+    } catch (e) {
+      sendError(response, 400, `Could not execute code: ${e.message}`);
     }
   });
 }
@@ -97,4 +107,16 @@ function sendError(response, code, msg) {
     </html>`
   );
   response.end();
+}
+
+function execute(lang, code, output) {
+  let fileName = `${Math.random()}.${lang.slice(5)}`;
+  if (lang === 'lang-java') fileName = `${code.match(/class(.*?){/).last().trim()}.java`; // Because java's a special snowflake and hates misnamed files
+  fs.writeFile(fileName, code.trim(), function (err) {
+    if (err) throw err;
+    cp.exec(`iojs -harmony ./execute/${lang}.js "${fileName}"`, function (err, stdout, stderr) {
+      fs.unlink(fileName);
+      output(err, stdout, stderr);
+    });
+  });
 }
