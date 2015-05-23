@@ -4,16 +4,31 @@ const fs = require('fs');
 const cp = require('child_process');
 const entities = new (require('html-entities').AllHtmlEntities)();
 let server;
-if (process.argv[2] === 'use-https') {
-  const https = require('https');
-  let options = {
-    key: fs.readFileSync('key.pem'),
-    cert: fs.readFileSync('cert.pem')
-  };
-  server = https.createServer(options, listener);
-} else {
-  const http = require('http');
-  server = http.createServer(listener);
+runServer();
+
+function runServer() {
+  let fails = 0;
+  try {
+    if (process.argv[2] === 'use-https') {
+      const https = require('https');
+      let options = {
+        key: fs.readFileSync('key.pem'),
+        cert: fs.readFileSync('cert.pem')
+      };
+      server = https.createServer(options, listener);
+    } else {
+      const http = require('http');
+      server = http.createServer(listener);
+    }
+    server.listen(8192, function () {
+      console.log('Server online.');
+    });
+  } catch (e) {
+    console.log(e.message);
+    fails++;
+    if (fails === 30) return;
+    runServer();
+  }
 }
 
 function listener(request, response) {
@@ -28,9 +43,6 @@ function listener(request, response) {
     default: sendError(response, 400, `Bad request: method not supported (${request.method}).`);
   }
 }
-server.listen(8192, function () {
-  console.log('Server online.');
-});
 
 function processPOST(request, response, url) {
   let body = '';
