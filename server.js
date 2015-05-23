@@ -49,7 +49,7 @@ function processPOST(request, response, url) {
   request.setEncoding('utf8');
   request.on('data', function (e) {body += e});
   request.on('end', function () {
-    body = entities.decode(body);
+    body = entities.decode(body.replace(/\t/g, '\n'));
     execute(url.pathname.slice(1), body, function (error, stdout, stderr) {
       if (error) {
         console.error(`Code encountered an error: ${error.message}`);
