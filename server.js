@@ -4,10 +4,10 @@ const fs = require('fs');
 const cp = require('child_process');
 const entities = new (require('html-entities').AllHtmlEntities)();
 let server;
+let fails = 0;
 runServer();
 
 function runServer() {
-  let fails = 0;
   try {
     if (process.argv[2] === 'use-https') {
       const https = require('https');
@@ -26,7 +26,7 @@ function runServer() {
   } catch (e) {
     console.log(e.message);
     fails++;
-    if (fails === 30) return;
+    if (fails >= 30) return;
     runServer();
   }
 }
@@ -50,9 +50,11 @@ function processPOST(request, response, url) {
   request.on('data', function (e) {body += e});
   request.on('end', function () {
     body = entities.decode(body);
-    try {
-      execute(url.pathname.slice(1), body, function (error, stdout, stderr) {
-        if (error) throw new Error(`Code encountered an error: ${error.message}`);
+    execute(url.pathname.slice(1), body, function (error, stdout, stderr) {
+      if (error) {
+        console.error(`Code encountered an error: ${error.message}`);
+        sendError(response, 400, `Could not execute code: ${error.message}`);
+      } else {
         response.writeHead(200, {
           'Cache-Control': 'max-age=0',
           'Access-Control-Allow-Origin': '109.103.29.52',
@@ -61,10 +63,8 @@ function processPOST(request, response, url) {
         });
         response.write(stdout);
         response.end();
-      });
-    } catch (e) {
-      sendError(response, 400, `Could not execute code: ${e.message}`);
-    }
+      }
+    });
   });
 }
 
