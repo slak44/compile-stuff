@@ -54,7 +54,6 @@ function processPOST(request, response, url) {
       if (error) console.error(`Could not execute code: ${error.message}`);
       response.writeHead((error)? 400 : 200, {
         'Cache-Control': 'max-age=0',
-        'Access-Control-Allow-Origin': '109.103.29.52',
         'Content-Type': 'text/plain',
         'Server': 'Slak\'s Server'
       });
@@ -89,7 +88,6 @@ function sendFile(response, filePath, mimeType) {
     else {
       response.writeHead(200, {
         'Cache-Control': 'max-age=3600',
-        'Access-Control-Allow-Origin': '109.103.29.52',
         'Content-Type': mimeType,
         'Server': 'Slak\'s Server'
       });
@@ -101,7 +99,6 @@ function sendFile(response, filePath, mimeType) {
 
 function sendError(response, code, msg) {
   response.writeHead(code, msg, {
-    'Access-Control-Allow-Origin': '109.103.29.52',
     'Connection': 'close',
     'Content-Type': 'text/html',
     'Server': 'Slak\'s Server'
