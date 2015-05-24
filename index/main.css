@@ -36,6 +36,8 @@ code {
   top: 87px;
   bottom: 0px;
   padding: 0px !important;
+  background-color: #282B2E;
+  color: #E0E2E4;
 }
 
 .displayable {
