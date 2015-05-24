@@ -51,19 +51,15 @@ function processPOST(request, response, url) {
   request.on('end', function () {
     body = entities.decode(body.replace(/\t/g, '\n'));
     execute(url.pathname.slice(1), body, function (error, stdout, stderr) {
-      if (error) {
-        console.error(`Code encountered an error: ${error.message}`);
-        sendError(response, 400, `Could not execute code: ${error.message}`);
-      } else {
-        response.writeHead(200, {
-          'Cache-Control': 'max-age=0',
-          'Access-Control-Allow-Origin': '109.103.29.52',
-          'Content-Type': 'text/plain',
-          'Server': 'Slak\'s Server'
-        });
-        response.write(stdout);
-        response.end();
-      }
+      if (error) console.error(`Could not execute code: ${error.message}`);
+      response.writeHead((error)? 400 : 200, {
+        'Cache-Control': 'max-age=0',
+        'Access-Control-Allow-Origin': '109.103.29.52',
+        'Content-Type': 'text/plain',
+        'Server': 'Slak\'s Server'
+      });
+      response.write(entities.encode(`Status:\n${(error)? '400 Bad Request' : '200 OK'}\n\nSTDERR:\n${stderr}\nSTDOUT:\n${stdout}`));
+      response.end();
     });
   });
 }
