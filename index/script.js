@@ -15,6 +15,10 @@ function sendToServer() {
   }
   xhr.open('POST', byClass('displayable')[0].classList[0]);
   xhr.send(data);
+  showResponse();
+}
+
+function showResponse() {
   byId('request').classList.add('unfocus');
   byId('response').classList.add('displayable');
 }
