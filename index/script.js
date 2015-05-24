@@ -6,7 +6,7 @@ for (var i = 0; i < codeBlocks.length; i++) highlightEvt(codeBlocks[i]);
 
 function sendToServer() {
   var data = byClass('displayable')[0].children[0].innerHTML // Current language's innerHTML
-    .replace(/<\/span>|<span(.*?)>|<br>|<div>|<\/div>/g, '') // Remove HTML from syntax highlighting
+    .replace(/<\/span>|<span(.*?)>|<br>|<div>|<\/div>|<\/font>|<font(.*?)>/g, '') // Remove HTML from syntax highlighting
     .replace(/\n/g, '\t'); // Replace newlines with tabs so they're preserved
   var xhr = new XMLHttpRequest();
   xhr.onload = function () {
