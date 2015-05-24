@@ -22,7 +22,6 @@ nav {
 nav > a {
   border-radius: 5px;
   background-color: #C98522;
-  margin-right: 25px;
   padding: 10px;
 }
 
@@ -48,10 +47,17 @@ div.unfocus {
   opacity: 0.5;
 }
 
-#execute {
+nav > a:first-of-type {
   font-size: 35px;
   margin: 10px 25px 10px 10px;
   display: inline-block;
+}
+
+#response > nav > a:last-of-type {
+  padding: 0px 5px 0px 5px;
+  float: right;
+  margin: 5px 5px;
+  font-size: 35px;
 }
 
 #response {
@@ -65,12 +71,4 @@ div.unfocus {
   width: 80%;
   height: 60%;
   background-color: #FFFFFF;
-}
-
-#response > a:first-of-type {
-  position: absolute;
-  right: 0px;
-  top: 0px;
-  margin: -10px 5px;
-  font-size: 30px;
 }
