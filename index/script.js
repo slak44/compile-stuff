@@ -5,6 +5,8 @@ var codeBlocks = byClass('code-block');
 for (var i = 0; i < codeBlocks.length; i++) highlightEvt(codeBlocks[i]);
 
 function sendToServer() {
+  showResponse();
+  byId('response').children[1].innerHTML = 'Status: Waiting...';
   var data = byClass('displayable')[0].children[0].innerHTML // Current language's innerHTML
     .replace(/<\/span>|<span(.*?)>|<br>|<div>|<\/div>|<\/font>|<font(.*?)>/g, '') // Remove HTML from syntax highlighting
     .replace(/\n/g, '\t'); // Replace newlines with tabs so they're preserved
@@ -15,8 +17,6 @@ function sendToServer() {
   }
   xhr.open('POST', byClass('displayable')[0].classList[0]);
   xhr.send(data);
-  byId('response').children[1].innerHTML = '';
-  showResponse();
 }
 
 function showResponse() {
