@@ -38,6 +38,8 @@ code {
   padding: 0px !important;
   background-color: #282B2E;
   color: #E0E2E4;
+  white-space: pre;
+  overflow-y: auto;
 }
 
 .displayable {
