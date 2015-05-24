@@ -118,7 +118,7 @@ function sendError(response, code, msg) {
 }
 
 function execute(lang, code, output) {
-  let fileName = `${Math.random()}.${lang.slice(5)}`;
+  let fileName = `${Number.parseInt(Math.random() * 1000000)}.${lang.slice(5)}`;
   if (lang === 'lang-java') fileName = `${code.match(/class(.*?){/).last().trim()}.java`; // Because java's a special snowflake and hates misnamed files
   fs.writeFile(fileName, code.trim(), function (err) {
     if (err) throw err;
