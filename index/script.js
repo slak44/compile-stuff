@@ -15,6 +15,7 @@ function sendToServer() {
   }
   xhr.open('POST', byClass('displayable')[0].classList[0]);
   xhr.send(data);
+  byId('response').children[1].innerHTML = '';
   showResponse();
 }
 
