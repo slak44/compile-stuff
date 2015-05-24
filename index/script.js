@@ -10,6 +10,7 @@ function sendToServer() {
     .replace(/\n/g, '\t'); // Replace newlines with tabs so they're preserved
   var xhr = new XMLHttpRequest();
   xhr.onload = function () {
+    byId('response').children[1].innerHTML = this.response;
     console.log(this);
   }
   xhr.open('POST', byClass('displayable')[0].classList[0]);
