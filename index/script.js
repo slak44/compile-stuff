@@ -14,6 +14,13 @@ function sendToServer() {
   }
   xhr.open('POST', byClass('displayable')[0].classList[0]);
   xhr.send(data);
+  byId('request').classList.add('unfocus');
+  byId('response').classList.add('displayable');
+}
+
+function hideResponse() {
+  byId('request').classList.remove('unfocus');
+  byId('response').classList.remove('displayable');
 }
 
 function highlightEvt(who) {
@@ -28,4 +35,8 @@ function showLang(langName) {
 
 function byClass(className) {
   return document.getElementsByClassName(className);
+}
+
+function byId(id) {
+  return document.getElementById(id);
 }

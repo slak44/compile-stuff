@@ -1,5 +1,6 @@
 body {
   margin: 0px;
+  background-color: #000000;
 }
 
 a {
@@ -39,11 +40,37 @@ code {
 }
 
 .displayable {
-  display: block;
+  display: block !important;
+}
+
+div.unfocus {
+  pointer-events: none;
+  opacity: 0.5;
 }
 
 #execute {
   font-size: 35px;
   margin: 10px 25px 10px 10px;
   display: inline-block;
+}
+
+#response {
+  display: none;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  margin: auto;
+  width: 80%;
+  height: 60%;
+  background-color: #FFFFFF;
+}
+
+#response > a:first-of-type {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  margin: -10px 5px;
+  font-size: 30px;
 }
