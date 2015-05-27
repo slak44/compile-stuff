@@ -49,8 +49,8 @@ function processPOST(request, response, url) {
   request.setEncoding('utf8');
   request.on('data', function (e) {body += e});
   request.on('end', function () {
-    body = entities.decode(body.replace(/\t/g, '\n'));
-    execute(url.pathname.slice(1), body, function (error, stdout, stderr) {
+    var data = entities.decode(body).split('~~~~');
+    execute(url.pathname.slice(1), data, function (error, stdout, stderr) {
       if (error) console.error(`Could not execute code: ${error.message}`);
       response.writeHead((error)? 400 : 200, {
         'Cache-Control': 'max-age=0',
@@ -116,10 +116,10 @@ function sendError(response, code, msg) {
 
 function execute(lang, code, output) {
   let fileName = `${Number.parseInt(Math.random() * 1000000)}.${lang.slice(5)}`;
-  if (lang === 'lang-java') fileName = `${code.match(/class(.*?){/).last().trim()}.java`; // Because java's a special snowflake and hates misnamed files
-  fs.writeFile(fileName, code.trim(), function (err) {
+  if (lang === 'lang-java') fileName = `${code[1].match(/class(.*?){/).last().trim()}.java`; // Because java's a special snowflake and hates misnamed files
+  fs.writeFile(fileName, code[1].trim(), function (err) {
     if (err) throw err;
-    cp.exec(`iojs -harmony ./execute/${lang}.js "${fileName}"`, function (err, stdout, stderr) {
+    cp.exec(`iojs -harmony ./execute/${lang}.js "${fileName}" ${code[0]}`, function (err, stdout, stderr) {
       fs.unlink(fileName);
       output(err, stdout, stderr);
     });

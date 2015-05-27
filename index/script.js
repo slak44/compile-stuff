@@ -5,18 +5,19 @@ var codeBlocks = byClass('code-block');
 for (var i = 0; i < codeBlocks.length; i++) highlightEvt(codeBlocks[i]);
 
 function sendToServer() {
+  var args = prompt('Command line args');
   showResponse();
   byId('response').children[1].innerHTML = 'Status: Waiting...';
   var data = byClass('displayable')[0].children[0].innerHTML // Current language's innerHTML
-    .replace(/<\/span>|<span(.*?)>|<br>|<div>|<\/div>|<\/font>|<font(.*?)>/g, '') // Remove HTML from syntax highlighting
-    .replace(/\n/g, '\t'); // Replace newlines with tabs so they're preserved
+    .replace(/<\/span>|<span(.*?)>|<div>|<\/div>|<\/font>|<font(.*?)>/g, '') // Remove HTML from syntax highlighting
+    .replace(/<br>/g, '\n');
   var xhr = new XMLHttpRequest();
   xhr.onload = function () {
     byId('response').children[1].innerHTML = this.response;
     console.log(this);
   }
   xhr.open('POST', byClass('displayable')[0].classList[0]);
-  xhr.send(data);
+  xhr.send(args + '~~~~' + data);
 }
 
 function showResponse() {
